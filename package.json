@@ -1,0 +1,23 @@
+{
+  "name": "samephotobot",
+  "description": "A Facebook page bot that takes 'suggestions' from users (through page conversations) to post the same predefined image on the page every single day.",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache Version 2.0",
+  "author": "",
+  "engines": {
+    "node": ">=4.3.2"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.0",
+    "express": "4.15.0",
+    "https": "^1.0.0",
+    "request": "^2.79.0",
+    "phash-image": "3.5.0",
+    "compute-hamming": "1.1.0",
+    "fb": "1.1.1"
+  }
+}
