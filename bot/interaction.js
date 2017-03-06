@@ -4,7 +4,7 @@ const FB = require('fb');
 
 const conf = require('../secrets/conf.js');
 const imageservice = require('../bot/imageservice.js');
-
+const responses = require('../static_content/responses.json')
 
 var mod = module.exports = {};
 
@@ -24,15 +24,20 @@ mod.handleMessage = function(req, res){
 
     //check image presence
     var filepath = 'filepathofsaved'
+
     //check image validity
     if (imageservice.compHash(imageservice.checkHash(conf.BASE_IMAGE_FILEPATH), imageservice.checkHash(filepath))){
-      postservice.addToQueue(filepath, name);
+      if(!postservice.checkQueueMembership()){
+        postservice.addToQueue(filepath, name);
+        self.sendResponse(SUCCESS);
+      }else{
+        self.sendResponse(QUEUE_LIMIT);
+      }
     }else{
-
+      self.sendResponse(INVALID_IMAGE);
     }
-    //check person not in post queue
-    
-    //add to post queue
-
 };
 
+mod.sendResponse = function(response){
+
+};
