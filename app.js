@@ -8,7 +8,7 @@ const request = require('request');
 const bodyParser = require('body-parser');
 const app = express();
 
-const conf = require('./conf.js');
+const conf = require('./secrets/conf.js');
 const interaction = require('./bot/interaction.js');
 
 

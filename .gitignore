@@ -58,5 +58,5 @@ typings/
 .env
 
 
-#conf file
-conf.js
+#shhhh
+secrets/

@@ -2,7 +2,7 @@
 
 const FB = require('fb');
 
-const conf = require('../conf.js');
+const conf = require('../secrets/conf.js');
 const imageservice = require('../bot/imageservice.js');
 
 
