@@ -23,9 +23,13 @@ mod.handleMessage = function(req, res){
     console.log(changes)
 
     //check image presence
-    
+    var filepath = 'filepathofsaved'
     //check image validity
-    
+    if (imageservice.compHash(imageservice.checkHash(conf.BASE_IMAGE_FILEPATH), imageservice.checkHash(filepath))){
+      postservice.addToQueue(filepath, name);
+    }else{
+
+    }
     //check person not in post queue
     
     //add to post queue

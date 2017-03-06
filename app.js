@@ -6,11 +6,12 @@ const https = require('https');
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
+const schedule = require('node-schedule');
 const app = express();
 
 const conf = require('./secrets/conf.js');
 const interaction = require('./bot/interaction.js');
-
+const postservice = require('./bot/postservice.js');
 
 app.use(bodyParser.json());
 
@@ -36,3 +37,12 @@ function startServer() {
     app.post('/webhook', interaction.handleMessage);
 }
 
+var rule = new schedule.RecurrenceRule();
+rule.hour = 17;
+rule.minute = 0;
+
+var postschedule = schedule.scheduleJob(rule, function(){
+    postservice.makePost();
+});
+
+startServer();

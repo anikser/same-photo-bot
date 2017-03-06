@@ -18,6 +18,8 @@
     "request": "^2.79.0",
     "imghash": "^0.0.2",
     "compute-hamming": "^1.1.0",
-    "fb": "^1.1.1"
+    "node-schedule": "^1.2.0",
+    "fb": "^1.1.1",
+    "mongodb": "^2.2.24"
   }
 }
