@@ -13,12 +13,15 @@ mod.initializeBot = function(req, res) {
     res.send(req.query['hub.challenge']);
   } else {
     res.send('Invalid token');
+    console.log('Invalid token');
   }
 };
 
 mod.handleMessage = function(req, res){
     let update = req.body.entry;
     let changes = update.changes
+    console.log('New Message');
+
     console.log(update)
     console.log(changes)
 
