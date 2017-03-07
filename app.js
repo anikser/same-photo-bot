@@ -32,7 +32,9 @@ function startServer() {
         console.log('Server running.');
     });
 
-    app.get('/','The Same Photo of Michael Christie Every Day');
+    app.get('/',function(req, res){
+	res.send('The Same Photo of Michael Christie Every Day');
+    });
     app.get('/webhook', interaction.initializeBot);
     app.post('/webhook', interaction.handleMessage);
 }

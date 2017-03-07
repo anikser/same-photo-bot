@@ -4,7 +4,7 @@ const FB = require('fb');
 
 const conf = require('../secrets/conf.js');
 const imageservice = require('../bot/imageservice.js');
-const responses = require('../static_content/responses.json')
+const responses = require('../static/responses.json')
 
 var mod = module.exports = {};
 
