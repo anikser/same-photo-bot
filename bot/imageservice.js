@@ -2,6 +2,8 @@
 
 const imghash = require('imghash');
 const hamming = require('compute-hamming');
+const fs = require('fs');
+const request = require('request');
 
 const conf = require('../secrets/conf.js');
 
@@ -20,5 +22,18 @@ mod.compHash = function(hash1, hash2){
     }else{
         return False;
     }
+}
+
+mod.downloadImage = function(imgurl, filepath, callback){
+    request.head(imgurl, function(err, res, body){
+    console.log('content-type:', res.headers['content-type']);
+    console.log('content-length:', res.headers['content-length']);
+
+    request(imgurl).pipe(fs.createWriteStream(filepath)).on('close', callback);
+  });
+};
+
+mod.addToQueue = function(userid, filepath){
+    
 }
 

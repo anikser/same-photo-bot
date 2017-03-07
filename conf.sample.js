@@ -9,8 +9,9 @@ var conf = module.exports = {
   PORT: 3000,
   MAX_HAMMING_DISTANCE: 20,
   BASE_IMAGE_FILEPATH: "../basephotosample.png",
+  IMAGE_DOWNLOAD_FILEPATH: "./images/", //consider replacing with full path
 
-  //setup letsencrypt
+  //ssl files (ie from letsencrypt)
   SSL: {
     KEY: 'key_path',
     CERT: 'cert_path',
