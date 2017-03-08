@@ -1,10 +1,11 @@
 {
   "name": "samephotobot",
   "description": "A Facebook page bot that takes 'suggestions' from users (through page conversations) to post the same predefined image on the page every single day.",
+  "main": "app.js",
   "version": "0.0.1",
   "private": true,
   "license": "Apache Version 2.0",
-  "author": "",
+  "author": "Ali Nikseresht",
   "engines": {
     "node": ">=4.3.2"
   },
@@ -19,7 +20,6 @@
     "imghash": "^0.0.2",
     "compute-hamming": "^1.1.0",
     "node-schedule": "^1.2.0",
-    "fb": "^1.1.1",
     "mongodb": "^2.2.24"
   }
 }

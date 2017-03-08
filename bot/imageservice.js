@@ -33,7 +33,4 @@ mod.downloadImage = function(imgurl, filepath, callback){
   });
 };
 
-mod.addToQueue = function(userid, filepath){
-    
-}
 
