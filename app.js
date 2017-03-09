@@ -1,7 +1,6 @@
 'use strict'
 
 const fs = require('fs');
-const fb = require('fb');
 const https = require('https');
 const express = require('express');
 const request = require('request');
@@ -33,18 +32,28 @@ function startServer() {
     });
 
     app.get('/',function(req, res){
-	res.send('The Same Photo of Michael Christie Every Day');
+	    res.send('The Same Photo of Michael Christie Every Day');
+    });
+    app.get('/image', function(req, res){
+        res.sendFile(postservice.image_filepath);
     });
     app.get('/webhook', interaction.initializeBot);
     app.post('/webhook', interaction.handleMessage);
 }
 
-var rule = new schedule.RecurrenceRule();
-rule.hour = 17;
-rule.minute = 0;
 
-var postschedule = schedule.scheduleJob(rule, function(){
-    postservice.makePost();
+
+postservice.initializeDB(function(err, collection) {
+  if (err) {
+    throw err;
+  } else {
+    var rule = new schedule.RecurrenceRule();
+    rule.hour = conf.POST_TIME.HOUR;
+    rule.minute = conf.POST_TIME.MINUTE;
+
+    var postschedule = schedule.scheduleJob(rule, function(){
+        postservice.makePost();
+    });
+    startServer();
+  }
 });
-
-startServer();

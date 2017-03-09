@@ -1,6 +1,5 @@
 'use strict'
 
-const FB = require('fb');
 const request = require('request');
 
 const conf = require('../secrets/conf.js');
@@ -19,9 +18,9 @@ mod.initializeBot = function(req, res) {
 };
 
 mod.handleMessage = function(req, res){
-
-
     console.log('New Message');
+
+    //looping through events
     let events = req.body.entry[0].messaging;
     for (let i = 0; i < events.length; i++) {
       let object = events[i]
@@ -34,18 +33,22 @@ mod.handleMessage = function(req, res){
       //check message for image attachment
       if (object.message.hasOwnProperty("attachments") && object.message.attachments[0].type == "image"){
         console.log("Recieved Image");
+
         //check user not already in posting queue
         if(!postservice.checkQueueMembership()){
           console.log("User not in queue");
+
+          //download image
           imgurl = object.message.attachments[0][0].payload.url;
           let filepath = conf.IMAGE_DOWNLOAD_FILEPATH + user + imgurl.split('.').pop();
-
           imageservice.downloadImage(imgurl, filename, function(){
             console.log("Image Downloaded");
+
             //check image validity
             if (imageservice.compHash(imageservice.checkHash(conf.BASE_IMAGE_FILEPATH), imageservice.checkHash(filepath))){
-              imageservice.addToQueue(user, filepath);
-              mod.sendResponse("SUCCESS", user);
+              postservice.queuePush(user, filepath, function(){
+                mod.sendResponse("SUCCESS", user);
+              });
             }else{
               mod.sendResponse("INVALID_IMAGE", user);
             }
@@ -67,17 +70,19 @@ mod.sendResponse = function(response, userid){
     }
   console.log(messagebody);
 
-  request({
+
+  request(
+  {
     url: conf.API_MESSAGE_URL,  
     qs: { access_token: conf.ACCESS_TOKEN },
     method: 'POST',
     json: messagebody
-  }, function(error, response, body) {
+  }, 
+  function(error, response, body) {
     if (error) {
       console.log('Error sending messages: ', error)
     } else if (response.body.error) {
       console.log('Error: ', response.body.error)
     }
   });
-  
 };
