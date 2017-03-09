@@ -12,7 +12,7 @@ var image_filepath = conf.BASE_IMAGE_FILEPATH;
 var mod = module.exports = {};
 
 mod.checkHash = function(filepath, callback){
-    imghash.hash(filepath)
+    imghash.hash(filepath, 16)
       .then((hash)=>{
       console.log(hash);
       callback(hash);

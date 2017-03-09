@@ -55,9 +55,9 @@ mod.makePost = function(){
     });
 };
 
-mod.checkQueueMembership = function(userid){
+mod.checkQueueMembership = function(userid, callback){
     db.collection('to-post').indexExists(userid, function(err, result){
-        return result;
+        callback(result);
     });
 };
 
