@@ -1,35 +1,38 @@
 'use strict'
 
-const conf = require('../conf');
+const conf = require('../secrets/conf.js');
+const request = require('request');
 var MongoClient = require('mongodb').MongoClient;
 const mongoDbQueue = require('mongodb-queue');
 
+const imageservice = require('./imageservice.js');
+
 var db;
 var queue;
-var image_filepath = conf.BASE_IMAGE_FILEPATH;
 
 var mod = module.exports = {};
 
-mod.initializeDB = function(){
+mod.initializeDB = function(callback){
     MongoClient.connect(conf.DB_URL, function(err, newdb) {
     if (err) {
       return console.log(err);
     }
     db = newdb;
     queue = mongoDbQueue(db, 'to-post');
+    callback();
   });
 }
 
 mod.makePost = function(){
     mod.queuePop(function(userid, filepath){
-        image_filepath = filepath;
+        imageservice.setImageFilepath(filepath);
 
         //need to add @mention tag
         let messagebody = 
         {
             caption: "This is a caption.",
-            url: HOST_NAME + '/image'
-        }
+            url: conf.HOST_NAME + '/image'
+        };
 
         request(
         {

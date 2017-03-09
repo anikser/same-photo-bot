@@ -3,7 +3,8 @@
 const request = require('request');
 
 const conf = require('../secrets/conf.js');
-const imageservice = require('../bot/imageservice.js');
+const imageservice = require('../bot/imageservice.js')
+const postservice = require('../bot/postservice.js');
 const responses = require('../static/responses.json');
 
 var mod = module.exports = {};
@@ -19,7 +20,7 @@ mod.initializeBot = function(req, res) {
 
 mod.handleMessage = function(req, res){
     console.log('New Message');
-
+    
     //looping through events
     let events = req.body.entry[0].messaging;
     for (let i = 0; i < events.length; i++) {
@@ -39,19 +40,28 @@ mod.handleMessage = function(req, res){
           console.log("User not in queue");
 
           //download image
-          imgurl = object.message.attachments[0][0].payload.url;
-          let filepath = conf.IMAGE_DOWNLOAD_FILEPATH + user + imgurl.split('.').pop();
-          imageservice.downloadImage(imgurl, filename, function(){
+          let imgurl = object.message.attachments[0].payload.url;
+          console.log(imgurl);
+          let filepath = conf.IMAGE_DOWNLOAD_FILEPATH + user;
+          console.log(filepath);
+          imageservice.downloadImage(imgurl, filepath, function(){
             console.log("Image Downloaded");
 
             //check image validity
-            if (imageservice.compHash(imageservice.checkHash(conf.BASE_IMAGE_FILEPATH), imageservice.checkHash(filepath))){
-              postservice.queuePush(user, filepath, function(){
-                mod.sendResponse("SUCCESS", user);
+            imageservice.checkHash(conf.BASE_IMAGE_FILEPATH, function(hash1){
+              imageservice.checkHash(filepath, function(hash2){
+                imageservice.compHash(hash1, hash2, function(valid){
+                  if (valid){
+                    postservice.queuePush(user, filepath, function(){
+                      mod.sendResponse("SUCCESS", user);
+                    });
+                  }else{
+                    mod.sendResponse("INVALID_IMAGE", user);
+                  }
+                });
               });
-            }else{
-              mod.sendResponse("INVALID_IMAGE", user);
-            }
+            });
+            
           });  
         }else{
           mod.sendResponse("QUEUE_LIMIT", user);
@@ -60,6 +70,8 @@ mod.handleMessage = function(req, res){
         mod.sendResponse("NO_IMAGE", user);
       }
     }
+    res.sendStatus(200);
+    
 };
 
 mod.sendResponse = function(response, userid){

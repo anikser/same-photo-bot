@@ -11,6 +11,7 @@ const app = express();
 const conf = require('./secrets/conf.js');
 const interaction = require('./bot/interaction.js');
 const postservice = require('./bot/postservice.js');
+const imageservice = require('./bot/imageservice.js');
 
 app.use(bodyParser.json());
 
@@ -24,8 +25,6 @@ var SSL_CONF = {
 };
 
 
-fb.setAccessToken(conf.ACCESS_TOKEN);
-
 function startServer() {
     https.createServer(SSL_CONF, app).listen(app.get('port'), function (){
         console.log('Server running.');
@@ -35,18 +34,21 @@ function startServer() {
 	    res.send('The Same Photo of Michael Christie Every Day');
     });
     app.get('/image', function(req, res){
-        res.sendFile(postservice.image_filepath);
+				console.log("Image Requested");
+        res.sendFile(imageservice.getImageFilepath());
     });
     app.get('/webhook', interaction.initializeBot);
     app.post('/webhook', interaction.handleMessage);
 }
 
 
-
+console.log("Starting MongoDB Driver...");
 postservice.initializeDB(function(err, collection) {
   if (err) {
-    throw err;
+    throw err;  
   } else {
+    console.log("MongoDB Driver Started.");
+    console.log("Starting Scheduling Service.");
     var rule = new schedule.RecurrenceRule();
     rule.hour = conf.POST_TIME.HOUR;
     rule.minute = conf.POST_TIME.MINUTE;
@@ -54,6 +56,7 @@ postservice.initializeDB(function(err, collection) {
     var postschedule = schedule.scheduleJob(rule, function(){
         postservice.makePost();
     });
+    console.log("Post Scheduling Service Started.");
     startServer();
   }
 });
