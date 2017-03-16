@@ -1,6 +1,6 @@
 {
   "name": "samephotobot",
-  "description": "A Facebook page bot that takes 'suggestions' from users (through page conversations) to post the same predefined image on the page every single day.",
+  "description": "A Facebook page bot that takes 'suggestions' from users (through page conversations) to post images similar to a predefined image on the page every single day.",
   "main": "app.js",
   "version": "0.0.1",
   "private": true,
@@ -19,8 +19,6 @@
     "https": "^1.0.0",
     "imghash": "^0.0.2",
     "jsonfile": "^2.4.0",
-    "mongodb": "^2.2.24",
-    "mongodb-queue": "^3.1.0",
     "node-schedule": "^1.2.0",
     "request": "^2.79.0"
   }
