@@ -3,12 +3,11 @@ var conf = module.exports = {
   ACCESS_TOKEN: 'access_token',
   PAGE_ID: page_id,
 
-  API_MESSAGE_URL: 'https://graph.facebook.com/v2.6/me/messages',
+  API_MESSAGE_URL: 'https://graph.facebook.com/v2.8/me/messages',
   API_IMAGEPOST_URL: 'https://graph.facebook.com/v2.8/'+ PAGE_ID + '/photos',
+  API_USER_URL: 'https://graph.facebook.com/v2.8/',
   
   HOST_NAME: 'https://samephotobot.com',
-
-  DB_URL: "mongodb://localhost:27017/samephotobot",
 
   PORT: 443,
   MAX_HAMMING_DISTANCE: 20,
@@ -16,6 +15,8 @@ var conf = module.exports = {
   //consider replacing with full path
   BASE_IMAGE_FILEPATH: "../images/basephotosample.png",
   IMAGE_DOWNLOAD_FILEPATH: "./images/", 
+  QUEUE_FILEPATH: "../resources/queue.json",
+  CAPTIONS_FILEPATH: "../resources/captions.json",
 
   POST_TIME: {
     HOUR: 17,

@@ -8,10 +8,10 @@ const bodyParser = require('body-parser');
 const schedule = require('node-schedule');
 const app = express();
 
-const conf = require('./secrets/conf.js');
 const interaction = require('./bot/interaction.js');
 const postservice = require('./bot/postservice.js');
 const imageservice = require('./bot/imageservice.js');
+const conf = require('./secrets/conf.js');
 
 app.use(bodyParser.json());
 
@@ -37,17 +37,13 @@ function startServer() {
 				console.log("Image Requested");
         res.sendFile(imageservice.getImageFilepath());
     });
-    app.get('/webhook', interaction.initializeBot);
+    app.get('/webhook', interaction.initializeHook);
     app.post('/webhook', interaction.handleMessage);
 }
 
 
-console.log("Starting MongoDB Driver...");
-postservice.initializeDB(function(err, collection) {
-  if (err) {
-    throw err;  
-  } else {
-    console.log("MongoDB Driver Started.");
+console.log("Initializing post service...");
+postservice.initializeQueue(function() {
     console.log("Starting Scheduling Service.");
     var rule = new schedule.RecurrenceRule();
     rule.hour = conf.POST_TIME.HOUR;
@@ -58,5 +54,4 @@ postservice.initializeDB(function(err, collection) {
     });
     console.log("Post Scheduling Service Started.");
     startServer();
-  }
 });

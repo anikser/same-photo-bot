@@ -40,6 +40,14 @@ mod.downloadImage = function(imgurl, filepath, callback){
   });
 };
 
+mod.deleteImage = function(filepath){
+  fs.unlink(filepath ,function(err){
+    if (err){
+      console.log(err)
+    }
+  });  
+}
+
 mod.getImageFilepath = function(){
   return image_filepath;
 }
