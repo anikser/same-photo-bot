@@ -3,7 +3,6 @@
 const fs = require('fs');
 const https = require('https');
 const express = require('express');
-const request = require('request');
 const bodyParser = require('body-parser');
 const schedule = require('node-schedule');
 const app = express();
@@ -31,12 +30,15 @@ function startServer() {
     });
 
     app.get('/',function(req, res){
-	    res.send('The Same Photo of Michael Christie Every Day');
+	      res.send('The Same Photo of Michael Christie Every Day');
     });
     app.get('/image', function(req, res){
-				console.log("Image Requested");
+			  console.log("Image Requested");
         res.sendFile(imageservice.getImageFilepath());
     });
+		app.get('/privacypolicy', function(req, res){
+		    res.sendFile(conf.PRIVACY_POLICY_FILEPATH);	
+		});
     app.get('/webhook', interaction.initializeHook);
     app.post('/webhook', interaction.handleMessage);
 }

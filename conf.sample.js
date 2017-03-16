@@ -17,7 +17,9 @@ var conf = module.exports = {
   IMAGE_DOWNLOAD_FILEPATH: "./images/", 
   QUEUE_FILEPATH: "../resources/queue.json",
   CAPTIONS_FILEPATH: "../resources/captions.json",
-
+  //privacy policy required for facebook's app verification 
+  PRIVACY_POLICY_FILEPATH: "../resources/privacypolicy.html", 
+  
   POST_TIME: {
     HOUR: 17,
     MINUTE: 0
