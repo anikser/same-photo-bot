@@ -20,6 +20,10 @@ mod.initializeQueue = function(callback){
 
 mod.makePost = function(){
   console.log("Posting Image...");
+  if (queue.queue.length === 0){
+    imageservice.setImageFilepath(conf.BASE_IMAGE_FILEPATH);
+    mod.publish(null, captions.EMPTY_QUEUE);
+  }else{
     mod.queuePop(function(userid, filepath){
       imageservice.setImageFilepath(filepath);
       
@@ -46,36 +50,45 @@ mod.makePost = function(){
         });
       }
     });
+  }
 };
 
 mod.publish = function(userid, cap){
-  let messagebody = 
-  {
-      caption: cap,
-      tags:
-      [
-        {x: 0},
-        {y: 0},
-        {tag_uid: userid},
-        {tag_text: "Feeling blessed"}
-      ],
-      url: conf.HOST_NAME + '/image'
-  };
-
-  request(
-  {
-      url: conf.API_IMAGEPOST_URL,  
-      qs: { access_token: conf.ACCESS_TOKEN },
-      method: 'POST',
-      json: messagebody
-  }, 
-  function(err, response, body) {
-      if (err) {
-          console.log('Error making post: ', err)
-      } else if (response.body.error) {
-          console.log('Error: ', response.body.error)
-      }
-  });
+  let messagebody;
+  if (userid == null){
+    messagebody = 
+    {
+        caption: cap,
+        url: conf.HOST_NAME + '/image'
+    };
+  }else{
+    messagebody = 
+    {
+        caption: cap,
+        tags:
+        [
+          {x: 0},
+          {y: 0},
+          {tag_uid: userid},
+          {tag_text: "Feeling blessed"}
+        ],
+        url: conf.HOST_NAME + '/image'
+    };
+  }
+    request(
+    {
+        url: conf.API_IMAGEPOST_URL,  
+        qs: { access_token: conf.ACCESS_TOKEN },
+        method: 'POST',
+        json: messagebody
+    }, 
+    function(err, response, body) {
+        if (err) {
+            console.log('Error making post: ', err)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    });
 };
 
 mod.checkQueueMembership = function(userid){

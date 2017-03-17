@@ -11,5 +11,6 @@
         "_ sent in this great submission!",
         "_ is the mastermind behind today's submission.",
         "_ sent in today's submission."
-    ]
+    ],
+    "EMPTY_QUEUE": "No one sent in today's submission :("
 }
