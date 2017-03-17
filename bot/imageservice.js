@@ -12,27 +12,27 @@ var image_filepath = conf.BASE_IMAGE_FILEPATH;
 var mod = module.exports = {};
 
 mod.checkHash = function(filepath, callback){
-    imghash.hash(filepath, 16)
-      .then((hash)=>{
-      console.log(hash);
-      callback(hash);
-    });
+  imghash.hash(filepath, 16)
+    .then((hash)=>{
+    console.log(hash);
+    callback(hash);
+  });
 };
 
 mod.compHash = function(hash1, hash2, callback){
-    let dist = hamming(hash1, hash2);
-    console.log("Hamming Distance: " + dist);
-    if (dist <= conf.MAX_HAMMING_DISTANCE){
-        console.log("Image Similar Enough");
-        callback(true);
-    }else{
-        console.log("Image Not Similar Enough");
-        callback(false);
-    }
+  let dist = hamming(hash1, hash2);
+  console.log("Hamming Distance: " + dist);
+  if (dist <= conf.MAX_HAMMING_DISTANCE){
+    console.log("Image Similar Enough");
+    callback(true);
+  }else{
+    console.log("Image Not Similar Enough");
+    callback(false);
+  }
 }
 
 mod.downloadImage = function(imgurl, filepath, callback){
-    request.head(imgurl, function(err, res, body){
+  request.head(imgurl, function(err, res, body){
     console.log('content-type:', res.headers['content-type']);
     console.log('content-length:', res.headers['content-length']);
     let wstream = fs.createWriteStream(filepath);
@@ -41,11 +41,16 @@ mod.downloadImage = function(imgurl, filepath, callback){
 };
 
 mod.deleteImage = function(filepath){
-  fs.unlink(filepath ,function(err){
-    if (err){
-      console.log(err)
-    }
-  });  
+  setTimeout(function(){
+    fs.unlink(filepath ,function(err){
+      if (err){
+        console.log(err);
+      }else{
+        console.log("Image Deleted.");
+      }
+    });
+  }, 15000);
+  image_filepath = conf.BASE_IMAGE_FILEPATH;
 }
 
 mod.getImageFilepath = function(){
