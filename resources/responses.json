@@ -15,7 +15,7 @@
     },
 
     "SUCCESS": {
-        "user-response": "Thank you for your submission. It will be posted soon enough.",
+        "user-response": "Thank you for your submission. Your position in the queue is: ",
         "console-output": "Submission successful."
     }
 }

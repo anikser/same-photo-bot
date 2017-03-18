@@ -78,9 +78,13 @@ mod.handleMessage = function(req, res){
 
 mod.sendResponse = function(response, userid){
   console.log(responses[response]["console-output"]);
+  let ans = responses[response]["user-response"]
+  if (response == "SUCCESS"){
+    ans += postservice.getQueueLength();
+  }
   let messagebody = {
     recipient: {id: userid},
-    message: {text: responses[response]["user-response"]}
+    message: {text: ans}
   }
   //console.log(messagebody);
 

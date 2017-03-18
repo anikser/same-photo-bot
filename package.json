@@ -2,7 +2,7 @@
   "name": "samephotobot",
   "description": "A Facebook page bot that takes 'suggestions' from users (through page conversations) to post images similar to a predefined image on the page every single day.",
   "main": "app.js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "license": "Apache Version 2.0",
   "author": "Ali Nikseresht",

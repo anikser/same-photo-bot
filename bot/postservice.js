@@ -102,3 +102,7 @@ mod.queuePop = function(callback){
   jsonfile.writeFileSync(conf.QUEUE_FILEPATH, queue);
   callback(Object.keys(temp)[0], temp[Object.keys(temp)[0]]);
 };
+
+mod.getQueueLength = function(){
+  return queue.queue.length;
+};
