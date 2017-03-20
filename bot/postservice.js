@@ -98,7 +98,7 @@ mod.queuePush = function(userid, filepath, callback){
 };
 
 mod.queuePop = function(callback){
-  let temp = queue.queue.pop(0);
+  let temp = queue.queue.shift();
   jsonfile.writeFileSync(conf.QUEUE_FILEPATH, queue);
   callback(Object.keys(temp)[0], temp[Object.keys(temp)[0]]);
 };
